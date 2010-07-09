@@ -1,0 +1,4 @@
+:l euclid_test.hs
+quickCheck prop_GCDwithZero
+quickCheck prop_GCDwithOne
+quickCheck prop_GCDwithMultiple
