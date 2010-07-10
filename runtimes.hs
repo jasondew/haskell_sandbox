@@ -45,6 +45,7 @@ main = do
 
   where printRow (name, f) = do
           putStr "<tr>"
-          mapM_ printCell $ [name] ++ map (\x -> showEFloat (Just 2) x []) [fromIntegral . floor $ f t | t <- times]
+          mapM_ printCell $ [name] ++ map format [f t | t <- times]
           putStrLn "</tr>"
+        format x = showEFloat (Just 2) (fromIntegral . floor $ x) []
         printCell s = putStr $ "<td>" ++ s ++ "</td>"
