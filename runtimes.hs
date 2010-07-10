@@ -34,19 +34,17 @@ lambertW x = recursiveLambertW ((log x) - (log (log x))) x
                                              ew  = e ** previous
 
 inverse_functions :: [(String, Double -> Double)]
-inverse_functions = [("lg(n)", \x -> e ** x), ("sqrt(n)", (** 2)), ("n", id), ("n lg(n)", inverseOfNLgN),
-                     ("n^2", (** 0.5)), ("n^3", (** 0.33)), ("2^n", \x -> (log x) / (log 2)), ("n!", inverseOfNFactorial)]
+inverse_functions = [("ln(n)", \x -> e ** x), ("sqrt(n)", (** 2)), ("n", id), ("n ln(n)", inverseOfNLgN),
+                     ("n^2", (** 0.5)), ("n^3", (** 0.3333)), ("2^n", \x -> (log x) / (log 2)), ("n!", inverseOfNFactorial)]
 
 main :: IO ()
 main = do
-  putStrLn "+---------------------------------------------------------------------------------------+"
-  putStrLn "| function | 1 second | 1 minute |  1 hour  |   1 day  |  1 month |  1 year  | 1 century|"
-  putStrLn "+----------+----------+----------+----------+----------+----------+----------+----------+"
+  putStrLn "<table><thead><tr><th>complexity</th> <th>1 second</th> <th>1 minute</th> <th>1 hour</th> <th>1 day</th> <th>1 month</th> <th>1 year</th> <th>1 century</th></tr></thead><tbody>"
   mapM_ printRow inverse_functions
-  putStrLn "+---------------------------------------------------------------------------------------+"
+  putStrLn "</tbody></table>"
 
   where printRow (name, f) = do
-          putStr "| "
+          putStr "<tr>"
           mapM_ printCell $ [name] ++ map (\x -> showEFloat (Just 2) x []) [fromIntegral . floor $ f t | t <- times]
-          putStrLn ""
-        printCell = printf "%8s | "
+          putStrLn "</tr>"
+        printCell s = putStr $ "<td>" ++ s ++ "</td>"
