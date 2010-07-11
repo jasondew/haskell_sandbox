@@ -39,13 +39,27 @@ inverse_functions = [("ln(n)", \x -> e ** x), ("sqrt(n)", (** 2)), ("n", id), ("
 
 main :: IO ()
 main = do
-  putStrLn "<table><thead><tr><th>complexity</th> <th>1 second</th> <th>1 minute</th> <th>1 hour</th> <th>1 day</th> <th>1 month</th> <th>1 year</th> <th>1 century</th></tr></thead><tbody>"
+  putStrLn $ "<table><thead><tr>" ++
+             "<th>complexity</th>" ++
+             "<th>1 second</th>" ++
+             "<th>1 minute</th>" ++
+             "<th>1 hour</th>" ++
+             "<th>1 day</th>" ++
+             "<th>1 month</th>" ++
+             "<th>1 year</th>" ++
+             "<th>1 century</th>" ++
+             "</tr></thead><tbody>"
   mapM_ printRow inverse_functions
   putStrLn "</tbody></table>"
 
   where printRow (name, f) = do
           putStr "<tr>"
-          mapM_ printCell $ [name] ++ map format [f t | t <- times]
+          mapM_ printCell $
+            [name] ++ map format [f t | t <- times]
           putStrLn "</tr>"
-        format x = showEFloat (Just 2) (fromIntegral . floor $ x) []
-        printCell s = putStr $ "<td>" ++ s ++ "</td>"
+        format x =
+          showEFloat (Just 2)
+                     (fromIntegral $ floor x)
+                     []
+        printCell s =
+          putStr $ "<td>" ++ s ++ "</td>"
